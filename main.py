@@ -3,18 +3,19 @@ def playagain():
     choice = ["no", "yes"]
     while True:
         try:
-            replay = input("Do u wish to play again? ")
+            replay = input("\nDo u wish to play again? ").lower()
             if replay not in choice:
-                print("Invalid input. Choose either YES or NO!")
+                print(f"\nInvalid input \"{replay}\". Enter either (YES or NO)")
                 continue
-            break
-        except ValueError:
-            print("Invalid input. Choose either YES or NO!")
-        finally:
-            if replay == "yes":
+            elif replay == "yes":
+                print()
                 playGame()
             else:
-                print("thansk for playing ;)!")
+                print("\nThanks for playing ;)!")
+            break
+        except ValueError:
+            print(f"\nInvalid input \"{replay}\". Choose either YES or NO!")
+        
                 
 def playGame():
     while True:
@@ -38,24 +39,34 @@ def playGame():
     while roundCount < roundChoice:
         print(f"\nRound {roundCount+1} out of {roundChoice}")
         roundCount+=1
-        user_choice = input("Enter rock, paper or scissors: ").lower()
-        if user_choice not in choices:
-            print("Invalid input. Enter either rock, paper or scissors")
-            continue
+        while True:
+            try:
+                user_choice = input("\nEnter rock, paper or scissors: ").lower()
+                if user_choice not in choices:
+                    print("\nInvalid input. Enter either rock, paper or scissors")
+                    continue
+                break
+            except ValueError:
+                print("Invalid input. Enter either rock, paper or scissors")
+            
 
-        computerChoice = "rock"
+        computerChoice = random.choice(choices)
         print(f"Computer plays {computerChoice}")
 
         if user_choice == computerChoice:
-            print("its tie")
+            print("\nIts a tie")
+            print(f"Score: Computer:{computerPoint} \nPlayer:{playerPoint}")
+
         elif (user_choice == "rock" and computerChoice == "scissors") or \
              (user_choice == "scissors" and computerChoice == "paper") or \
              (user_choice == "paper" and computerChoice == "rock"):
             playerPoint+=1
-            print("You win this round!")
+            print("\nYou win this round!")
+            print(f"Score: Computer:{computerPoint} \nPlayer:{playerPoint}")
         else:
-            print("you lose this round!")
+            print("\nyou lose this round!")
             computerPoint+=1
+            print(f"Score: Computer:{computerPoint} \nPlayer:{playerPoint}")
 
         if playerPoint == maxPoint:
             print("\nCongrats you have won the game!")
@@ -65,8 +76,7 @@ def playGame():
             break
     if playerPoint != maxPoint and computerPoint != maxPoint:
         print("\nFinal Results:")
-        print(f"Your points: {playerPoint}")
-        print(f"Computer's points: {computerPoint}")
+        print(f"\nYour points: {playerPoint} \nComputer's points: {computerPoint}")
 
         if playerPoint > computerPoint:
             print("You are the winner!")
